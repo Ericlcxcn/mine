@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人网站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://i.ibb.co/DrNtpvY/2368.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+        }
+        #loader {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: none; /* Initially hidden */
+        }
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: linear-gradient(to right, #f4e1b1, #e5c5b0, #d6a0b7);
+            border-radius: 0 0 10px 10px;
+            backdrop-filter: blur(10px);
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+        }
+        .header-info {
+            text-align: right;
+            color: #333;
+        }
+        .header-info h2 {
+            margin: 0;
+        }
+        .header-info p {
+            margin: 5px 0;
+        }
+        section {
+            padding: 20px;
+            margin: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .skills, .projects {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .skill, .project {
+            background: rgba(228, 228, 228, 0.4);
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            flex: 1 1 calc(30% - 20px);
+            box-sizing: border-box;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background: rgba(53, 66, 74, 0.8);
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background-color: #35424a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2c3e50;
+        }
+        .admin-panel {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .admin-panel input {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        @media (max-width: 600px) {
+            .skill, .project {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+    <script>
+        let isAdmin = false;
+
+        const correctUsernameHash = md5('Eric'); // 哈希化用户名
+        const correctPasswordHash = md5('lincx2007'); // 哈希化密码
+
+        window.onload = function() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            adjustTextColor();
+            displayDateTime();
+        };
+
+        function confirmDownload(link) {
+            if (confirm("是否下载应用？")) {
+                window.location.href = link;
+            }
+        }
+
+        function adjustTextColor() {
+            const skills = document.querySelectorAll('.skill');
+            skills.forEach(skill => {
+                const bgColor = window.getComputedStyle(skill).backgroundColor;
+                const rgb = bgColor.match(/\d+/g);
+                const brightness = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+                skill.style.color = brightness > 0.5 ? '#000000' : '#ffffff';
+            });
+        }
+
+        function displayDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+            const dateTimeString = now.toLocaleDateString('zh-CN', options);
+            document.getElementById('datetime').innerText = dateTimeString;
+        }
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('admin-panel');
+            panel.style.display = isAdmin ? 'none' : 'block';
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const usernameHash = md5(username);
+            const passwordHash = md5(password);
+
+            if (usernameHash === correctUsernameHash && passwordHash === correctPasswordHash) {
+                isAdmin = true;
+                alert('登录成功！');
+                toggleAdminPanel();
+                enableEditing();
+            } else {
+                alert('用户名或密码错误！');
+            }
+        }
+
+        function enableEditing() {
+            const sections = document.querySelectorAll('section, footer');
+            sections.forEach(section => {
+                section.contentEditable = true;
+                section.style.border = '1px dashed #fff';
+            });
+        }
+    </script>
+</head>
+<body>
+
+<div id="loader">
+    <div class="loader"></div>
+</div>
+
+<div id="content" style="display: none;">
+    <header>
+        <img src="https://i.ibb.co/your-avatar.jpg" alt="头像" class="avatar">
+        <div class="header-info">
+            <h2>Winter工作室</h2>
+            <p id="datetime"></p>
+            <p>个性签名：追求卓越，成就自我。</p>
+        </div>
+    </header>
+
+    <section>
+        <h2>个人简介</h2>
+        <p>你好！我是一名软件开发者，专注于前端开发和用户体验设计。</p>
+    </section>
+
+    <section>
+        <h2>技能</h2>
+        <div class="skills">
+            <div class="skill">HTML</div>
+            <div class="skill">CSS</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">React</div>
+            <div class="skill">Node.js</div>
+            <div class="skill">Python</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>项目</h2>
+        <div class="projects">
+            <div class="project">
+                <button onclick="confirmDownload('https://example.com/downloadA')">项目A</button>
+            </div>
+            <div class="project">
+                <button onclick="confirmDownload('https://example.com/downloadB')">项目B</button>
+            </div>
+            <div class="project">
+                <button onclick="confirmDownload('https://example.com/downloadC')">项目C</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2>联系方式</h2>
+        <p>邮箱: yourname@example.com</p>
+    </footer>
+</div>
+
+<div class="admin-panel" id="admin-panel">
+    <h3>管理员登录</h3>
+    <input type="text" id="username" placeholder="用户名">
+    <input type="password" id="password" placeholder="密码">
+    <button onclick="login()">登录</button>
+    <button onclick="toggleAdminPanel()">取消</button>
+</div>
+
+<button onclick="toggleAdminPanel()" style="position: fixed; bottom: 10px; right: 10px;">管理员入口</button>
+
+</body>
+</html>

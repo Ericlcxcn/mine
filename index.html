@@ -67,15 +67,15 @@
         }
         .skills, .projects {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column; /* 纵向排列 */
+            align-items: center; /* 居中对齐 */
         }
         .skill, .project {
             background: rgba(228, 228, 228, 0.4);
-            margin: 10px;
+            margin: 10px 0; /* 上下间距 */
             padding: 10px;
             border-radius: 5px;
-            flex: 1 1 calc(30% - 20px);
-            box-sizing: border-box;
+            width: 80%; /* 设置宽度 */
             text-align: center;
         }
         footer {
@@ -99,96 +99,7 @@
         button:hover {
             background-color: #2c3e50;
         }
-        .admin-panel {
-            display: none; /* Initially hidden */
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        .admin-panel input {
-            margin: 5px 0;
-            padding: 10px;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        @media (max-width: 600px) {
-            .skill, .project {
-                flex: 1 1 100%;
-            }
-        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
-    <script>
-        let isAdmin = false;
-
-        const correctUsernameHash = md5('Eric'); // 哈希化用户名
-        const correctPasswordHash = md5('lincx2007'); // 哈希化密码
-
-        window.onload = function() {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('content').style.display = 'block';
-            adjustTextColor();
-            displayDateTime();
-        };
-
-        function confirmDownload(link) {
-            if (confirm("是否下载应用？")) {
-                window.location.href = link;
-            }
-        }
-
-        function adjustTextColor() {
-            const skills = document.querySelectorAll('.skill');
-            skills.forEach(skill => {
-                const bgColor = window.getComputedStyle(skill).backgroundColor;
-                const rgb = bgColor.match(/\d+/g);
-                const brightness = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
-                skill.style.color = brightness > 0.5 ? '#000000' : '#ffffff';
-            });
-        }
-
-        function displayDateTime() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
-            const dateTimeString = now.toLocaleDateString('zh-CN', options);
-            document.getElementById('datetime').innerText = dateTimeString;
-        }
-
-        function toggleAdminPanel() {
-            const panel = document.getElementById('admin-panel');
-            panel.style.display = isAdmin ? 'none' : 'block';
-        }
-
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            const usernameHash = md5(username);
-            const passwordHash = md5(password);
-
-            if (usernameHash === correctUsernameHash && passwordHash === correctPasswordHash) {
-                isAdmin = true;
-                alert('登录成功！');
-                toggleAdminPanel();
-                enableEditing();
-            } else {
-                alert('用户名或密码错误！');
-            }
-        }
-
-        function enableEditing() {
-            const sections = document.querySelectorAll('section, footer');
-            sections.forEach(section => {
-                section.contentEditable = true;
-                section.style.border = '1px dashed #fff';
-            });
-        }
-    </script>
 </head>
 <body>
 
@@ -202,13 +113,13 @@
         <div class="header-info">
             <h2>Winter工作室</h2>
             <p id="datetime"></p>
-            <p>个性签名：追求卓越，成就自我。</p>
+            <p id="signature">个性签名：努力改变命运，编程改变发型。</p>
         </div>
     </header>
 
     <section>
         <h2>个人简介</h2>
-        <p>你好！我是一名软件开发者，专注于前端开发和用户体验设计。</p>
+        <p>你好！我是一名软件开发者，专注于应用设计和用户体验设计。</p>
     </section>
 
     <section>
@@ -217,9 +128,8 @@
             <div class="skill">HTML</div>
             <div class="skill">CSS</div>
             <div class="skill">JavaScript</div>
-            <div class="skill">React</div>
-            <div class="skill">Node.js</div>
-            <div class="skill">Python</div>
+            <div class="skill">C++</div>
+
         </div>
     </section>
 
@@ -227,32 +137,48 @@
         <h2>项目</h2>
         <div class="projects">
             <div class="project">
-                <button onclick="confirmDownload('https://example.com/downloadA')">项目A</button>
-            </div>
-            <div class="project">
-                <button onclick="confirmDownload('https://example.com/downloadB')">项目B</button>
-            </div>
-            <div class="project">
-                <button onclick="confirmDownload('https://example.com/downloadC')">项目C</button>
+                <button onclick="confirmDownload('https://www.123865.com/s/adRijv-8gOR')">工具箱v1.3.5</button>
             </div>
         </div>
     </section>
 
     <footer>
         <h2>联系方式</h2>
-        <p>邮箱: yourname@example.com</p>
+        <p>邮箱：3507372474@qq.com</p>
     </footer>
 </div>
 
-<div class="admin-panel" id="admin-panel">
-    <h3>管理员登录</h3>
-    <input type="text" id="username" placeholder="用户名">
-    <input type="password" id="password" placeholder="密码">
-    <button onclick="login()">登录</button>
-    <button onclick="toggleAdminPanel()">取消</button>
-</div>
+<script>
+    window.onload = function() {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+        displayDateTime();
+        adjustTextColor();
+    };
 
-<button onclick="toggleAdminPanel()" style="position: fixed; bottom: 10px; right: 10px;">管理员入口</button>
+    function confirmDownload(link) {
+        if (confirm("是否下载应用？")) {
+            window.location.href = link;
+        }
+    }
+
+    function displayDateTime() {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+        const dateTimeString = now.toLocaleDateString('zh-CN', options);
+        document.getElementById('datetime').innerText = dateTimeString;
+    }
+
+    function adjustTextColor() {
+        const sections = document.querySelectorAll('section, footer');
+        sections.forEach(section => {
+            const bgColor = window.getComputedStyle(section).backgroundColor;
+            const rgb = bgColor.match(/\d+/g);
+            const brightness = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+            section.style.color = brightness > 0.5 ? '#000000' : '#ffffff'; // 根据亮度调整文字颜色
+        });
+    }
+</script>
 
 </body>
 </html>

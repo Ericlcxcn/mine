@@ -15,10 +15,15 @@
         }
         #loader {
             position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            display: none; /* Initially hidden */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 255, 0.5); /* 蓝色遮盖 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* 确保在最上层 */
         }
         .loader {
             border: 16px solid #f3f3f3; /* Light grey */
@@ -32,24 +37,27 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        header, section, footer {
+            opacity: 0; /* 初始透明度为0 */
+            transition: opacity 0.1s; /* 设置渐显效果 */
+        }
         header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             padding: 20px;
             background: linear-gradient(to right, #f4e1b1, #e5c5b0, #d6a0b7);
             border-radius: 0 0 10px 10px;
             backdrop-filter: blur(10px);
         }
         .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            width: 100px; /* 确保宽度 */
+            height: 100px; /* 确保高度 */
+            border-radius: 50%; /* 确保头像为圆形 */
             border: 3px solid white;
-            object-fit: cover;
+            object-fit: cover; /* 确保图像适应容器 */
+            margin-right: 20px; /* 头像与文本之间的间距 */
         }
         .header-info {
-            text-align: right;
             color: #333;
         }
         .header-info h2 {
@@ -77,6 +85,10 @@
             border-radius: 5px;
             width: 80%; /* 设置宽度 */
             text-align: center;
+            transition: transform 0.2s ease; /* 添加变换过渡 */
+        }
+        .skill:hover, .project:hover {
+            transform: scale(1.05); /* 悬停时放大 */
         }
         footer {
             text-align: center;
@@ -95,9 +107,10 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            transition: transform 0.2s ease; /* 按钮的过渡效果 */
         }
         button:hover {
-            background-color: #2c3e50;
+            transform: scale(1.1); /* 鼠标悬停时放大 */
         }
     </style>
 </head>
@@ -109,7 +122,7 @@
 
 <div id="content" style="display: none;">
     <header>
-        <img src="https://i.ibb.co/your-avatar.jpg" alt="头像" class="avatar">
+        <img src="https://i.ibb.co/vP5TQxc/Image-3421743685359.jpg" alt="头像" class="avatar">
         <div class="header-info">
             <h2>Winter工作室</h2>
             <p id="datetime"></p>
@@ -129,7 +142,6 @@
             <div class="skill">CSS</div>
             <div class="skill">JavaScript</div>
             <div class="skill">C++</div>
-
         </div>
     </section>
 
@@ -137,29 +149,59 @@
         <h2>项目</h2>
         <div class="projects">
             <div class="project">
-                <button onclick="confirmDownload('https://www.123865.com/s/adRijv-8gOR')">工具箱v1.3.5</button>
+                <button onclick="handleButtonClick(this, 'https://www.123865.com/s/adRijv-8gOR')">工具箱 v1.3.5</button>
             </div>
         </div>
     </section>
 
     <footer>
         <h2>联系方式</h2>
-        <p>邮箱：3507372474@qq.com</p>
+        <p>邮箱: 3507372474@qq.com</p>
     </footer>
 </div>
 
 <script>
     window.onload = function() {
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('content').style.display = 'block';
+        // 加载完成后0.3秒移除遮盖
+        setTimeout(function() {
+            document.getElementById('loader').style.transform = 'translateX(-100%)';
+            document.getElementById('loader').style.transition = 'transform 0.5s ease';
+        }, 300); // 300毫秒后移开遮盖
+
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none'; // 完全隐藏
+            document.getElementById('content').style.display = 'block'; // 显示内容
+
+            // 每0.05秒增加0.15透明度
+            let opacity = 0;
+            const elements = document.querySelectorAll('header, section, footer');
+            const interval = setInterval(function() {
+                if (opacity >= 1) {
+                    clearInterval(interval); // 达到1后停止
+                } else {
+                    opacity += 0.15; // 增加透明度
+                    elements.forEach(element => {
+                        element.style.opacity = opacity; // 设置透明度
+                    });
+                }
+            }, 50); // 每50毫秒执行一次
+
+        }, 800); // 确保在遮盖移开后再显示内容
+
         displayDateTime();
         adjustTextColor();
     };
 
-    function confirmDownload(link) {
-        if (confirm("是否下载应用？")) {
-            window.location.href = link;
-        }
+    function handleButtonClick(button, link) {
+        // 点击时缩小
+        button.style.transform = 'scale(0.95)';
+        // 设置150毫秒后恢复大小并弹出确认框
+        setTimeout(() => {
+            button.style.transform = 'scale(1)';
+            if (confirm("是否下载应用？")) {
+                window.location.href = link;
+            }
+        }, 150); // 等待150毫秒
     }
 
     function displayDateTime() {

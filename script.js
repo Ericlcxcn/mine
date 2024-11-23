@@ -80,33 +80,7 @@ window.onload = function() {
 function handleButtonClick(button, link) {
     // 立即触发按钮缩放效果
     button.style.transform = 'scale(0.95)';
-    showCaptcha(link);
-}
-
-function showCaptcha(link) {
-    // 生成随机加减计算题
-    const num1 = Math.floor(Math.random() * 101); // 随机生成 0-100 的数字
-    const num2 = Math.floor(Math.random() * 101); // 随机生成 0-100 的数字
-    const operation = Math.random() < 0.5 ? '+' : '-'; // 随机选择加法或减法
-    let correctAnswer;
-
-    // 计算正确答案
-    if (operation === '+') {
-        correctAnswer = num1 + num2;
-    } else {
-        correctAnswer = num1 - num2;
-    }
-
-    const userInput = prompt(`请计算并输入答案：${num1} ${operation} ${num2} = ?`);
-
-    if (parseInt(userInput) === correctAnswer) {
-        // 验证成功，弹出下载确认框
-        if (confirm("是否下载应用？")) {
-            window.location.href = link;
-        }
-    } else {
-        alert("答案错误，请重试。");
-    }
+     window.location.href = link;
 }
 
 function displayDateTime() {

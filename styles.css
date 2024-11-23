@@ -70,37 +70,37 @@ section {
     border-radius: 10px;
     backdrop-filter: blur(10px);
 }
-.skills, .projects {
+.skills, .projects, .links {
     display: flex;
     flex-direction: column;
-    align-items: center; /* 子项居中 */
+    align-items: center;
 }
-.skill, .project {
+.skill, .project, .link {
     background: rgba(228, 228, 228, 0.4);
     margin: 10px 0;
     padding: 10px;
     border-radius: 5px;
     width: 80%;
-    text-align: center; /* 内容居中 */
+    text-align: center;
     transition: transform 0.2s ease;
-    cursor: pointer; /* 使按钮可点击 */
+    cursor: pointer;
 }
-.skill:hover, .project:hover {
+.skill:hover, .project:hover, .link:hover {
     transform: scale(1.05);
 }
 footer {
     display: flex;
-    justify-content: center; /* 居中显示内容 */
+    justify-content: center;
     align-items: center;
     padding: 20px 0;
     background: rgba(53, 66, 74, 0.8);
     position: relative;
     width: 100%;
     backdrop-filter: blur(10px);
-    text-align: center; /* 确保文本居中 */
+    text-align: center;
 }
 .footer-info {
-    margin-right: 20px; /* 按钮与联系方式之间的间距 */
+    margin-right: 20px;
 }
 button {
     background-color: #35424a;
@@ -111,13 +111,12 @@ button {
     cursor: pointer;
     font-size: 16px;
     transition: transform 0.2s ease;
-    display: flex; /* 使按钮内容在中间对齐 */
-    align-items: center; /* 垂直居中 */
+    display: flex;
+    align-items: center;
 }
 button:hover {
     transform: scale(1.1);
 }
-/* 弹出框样式 */
 .popup {
     display: none;
     position: fixed;
@@ -142,4 +141,30 @@ button:hover {
 }
 .popup button:hover {
     background-color: #2980b9;
+}
+#rewardImage {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1002;
+}
+#rewardImage img {
+    max-width: 90%;
+    max-height: 90%;
+}
+#thankYouMessage {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1003;
+    color: black;
+    font-size: 36px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
 }

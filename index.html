@@ -7,58 +7,87 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="loader">
-        <div class="loader"></div>
-    </div>
-    <div id="content" style="display: none;">
-        <header>
-            <div style="display: flex; align-items: center;">
-                <img src="https://s2.loli.net/2024/11/23/giTHqSktvpJfaAE.jpg" alt="头像" class="avatar">
-                <div class="header-info">
-                    <h2 id="studioName">Winter工作室</h2>
-                    <p id="datetime"></p>
-                    <p id="signature">个性签名：努力改变命运，编程改变发型。</p>
-                </div>
+
+<div id="loader">
+    <div class="loader"></div>
+</div>
+
+<div id="content" style="display: none;">
+    <header>
+        <div style="display: flex; align-items: center;">
+            <img src="https://s2.loli.net/2024/11/23/giTHqSktvpJfaAE.jpg" alt="头像" class="avatar">
+            <div class="header-info">
+                <h2 id="studioName">Winter工作室</h2>
+                <p id="datetime"></p>
+                <p id="signature">个性签名：努力改变命运，编程改变发型。</p>
             </div>
-        </header>
-        <section>
-            <h2 id="introTitle">个人简介</h2>
-            <p id="introText">你好！我是一名软件开发者，专注于应用设计和用户体验设计。</p>
-        </section>
-        <section>
-            <h2 id="skillsTitle">技能</h2>
-            <div class="skills">
-                <div class="skill">HTML</div>
-                <div class="skill">CSS</div>
-                <div class="skill">JavaScript</div>
-                <div class="skill">C++</div>
-            </div>
-        </section>
-        <section>
-            <h2 id="projectsTitle">项目</h2>
-            <div class="projects">
-                <div class="project">
-                    <button onclick="handleButtonClick(this, 'https://ericlcxcn.github.io/store/gjxxq.html')">
-                        <span id="projectName">工具箱 v1.3.5</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-        <footer>
-            <div class="footer-info">
-                <h2 id="contactTitle">联系方式</h2>
-                <p id="emailText">邮箱: 3507372474@qq.com</p>
-            </div>
-            <button id="languageButton"></button>
-        </footer>
-        <div class="popup" id="languagePopup">
-            <h3>选择语言</h3>
-            <button onclick="selectLanguage('zh')">中文（简体）</button>
-            <button onclick="selectLanguage('zh-tw')">中文（繁體）</button>
-            <button onclick="selectLanguage('en')">English</button>
-            <button class="close" onclick="closePopup()">关闭</button>
         </div>
+    </header>
+
+    <section>
+        <h2 id="introTitle">个人简介</h2>
+        <p id="introText">你好！我是一名软件开发者，专注于应用设计和用户体验设计。</p>
+    </section>
+
+    <section>
+        <h2 id="skillsTitle">技能</h2>
+        <div class="skills">
+            <div class="skill">HTML</div>
+            <div class="skill">CSS</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">C++</div>
+        </div>
+    </section>
+
+    <section>
+        <h2 id="projectsTitle">项目</h2>
+        <div class="projects">
+            <div class="project">
+                <button onclick="window.location.href='https://ericlcxcn.github.io/store/gjxxq.html'">
+                    <span id="projectName">工具箱 v1.3.5</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 id="linksTitle">友情链接</h2>
+        <div class="links">
+            <div class="link">
+                <button onclick="window.location.href='https://ericlcxcn.github.io/store'">
+                    <span id="linkName">Winter应用商店</span>
+                </button>
+            </div>
+            <div class="link">
+                <button onclick="showRewardImage()">
+                    <span id="linkName2">打赏</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-info">
+            <h2 id="contactTitle">联系方式</h2>
+            <p id="emailText">邮箱: 3507372474@qq.com</p>
+        </div>
+        <button id="languageButton"></button>
+    </footer>
+
+    <div class="popup" id="languagePopup">
+        <h3>选择语言</h3>
+        <button onclick="selectLanguage('zh')">中文（简体）</button>
+        <button onclick="selectLanguage('zh-tw')">中文（繁體）</button>
+        <button onclick="selectLanguage('en')">English</button>
+        <button class="close" onclick="closePopup()">关闭</button>
     </div>
-    <script src="script.js"></script>
+
+    <div id="rewardImage" onclick="hideRewardImage()">
+        <img src="https://s2.loli.net/2024/11/23/bwONyTd1F7Jlmzq.jpg" alt="打赏图片">
+    </div>
+    <div id="thankYouMessage"></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

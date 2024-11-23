@@ -7,9 +7,13 @@ const translations = {
         introText: "你好！我是一名软件开发者，专注于应用设计和用户体验设计。",
         skillsTitle: "技能",
         projectsTitle: "项目",
+        linksTitle: "友情链接",
         contactTitle: "联系方式",
         emailText: "邮箱: 3507372474@qq.com",
         projectName: "工具箱 v1.3.5",
+        linkName: "Winter应用商店",
+        linkName2: "打赏",
+        thankYouMessage: "感谢打赏",
         languageButtonText: "简体中文"
     },
     'zh-tw': {
@@ -18,9 +22,13 @@ const translations = {
         introText: "你好！我是一名軟體開發者，專注於應用設計和用戶體驗設計。",
         skillsTitle: "技能",
         projectsTitle: "項目",
+        linksTitle: "友情連結",
         contactTitle: "聯繫方式",
         emailText: "郵箱: 3507372474@qq.com",
         projectName: "工具箱 v1.3.5",
+        linkName: "Winter應用商店",
+        linkName2: "打赏",
+        thankYouMessage: "感謝打賞",
         languageButtonText: "繁體中文"
     },
     'en': {
@@ -29,26 +37,29 @@ const translations = {
         introText: "Hello! I am a software developer focused on application design and user experience design.",
         skillsTitle: "Skills",
         projectsTitle: "Projects",
+        linksTitle: "Links",
         contactTitle: "Contact",
         emailText: "Email: 3507372474@qq.com",
         projectName: "Toolkit v1.3.5",
+        linkName: "Winter App Store",
+        linkName2: "Donation",
+        thankYouMessage: "Thank you for your support",
         languageButtonText: "English"
     }
 };
 
-// 自动获取设备语言
 function getBrowserLanguage() {
     const lang = navigator.language || navigator.userLanguage; 
-    if (lang.startsWith('zh-Hans')) return 'zh';  // 简体中文
-    if (lang.startsWith('zh-Hant')) return 'zh-tw'; // 繁体中文
-    if (lang.startsWith('en')) return 'en'; // 英文
-    return 'zh'; // 默认使用简体中文
+    if (lang.startsWith('zh-Hans')) return 'zh'; 
+    if (lang.startsWith('zh-Hant')) return 'zh-tw'; 
+    if (lang.startsWith('en')) return 'en'; 
+    return 'zh'; 
 }
 
 window.onload = function() {
-    currentLanguage = getBrowserLanguage(); // 设置当前语言
-    updateContent(); // 更新内容
-    updateLanguageButton(); // 更新语言按钮文本
+    currentLanguage = getBrowserLanguage(); 
+    updateContent(); 
+    updateLanguageButton(); 
 
     setTimeout(function() {
         document.getElementById('loader').style.transform = 'translateX(-100%)';
@@ -77,12 +88,6 @@ window.onload = function() {
     adjustTextColor();
 };
 
-function handleButtonClick(button, link) {
-    // 立即触发按钮缩放效果
-    button.style.transform = 'scale(0.95)';
-     window.location.href = link;
-}
-
 function displayDateTime() {
     const now = new Date();
     const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
@@ -108,8 +113,8 @@ document.getElementById('languageButton').onclick = function() {
 
 function selectLanguage(language) {
     currentLanguage = language;
-    updateContent(); // 更新内容
-    updateLanguageButton(); // 更新按钮文本
+    updateContent(); 
+    updateLanguageButton(); 
     closePopup();
 }
 
@@ -120,16 +125,37 @@ function updateContent() {
     document.getElementById('introText').innerText = translation.introText;
     document.getElementById('skillsTitle').innerText = translation.skillsTitle;
     document.getElementById('projectsTitle').innerText = translation.projectsTitle;
+    document.getElementById('linksTitle').innerText = translation.linksTitle;
     document.getElementById('contactTitle').innerText = translation.contactTitle;
-    document.getElementById('emailText').innerText = translation.emailText; // 更新邮箱文本
+    document.getElementById('emailText').innerText = translation.emailText;
     document.getElementById('projectName').innerText = translation.projectName;
+    document.getElementById('linkName').innerText = translation.linkName;
+    document.getElementById('linkName2').innerText = translation.linkName2;
+    document.getElementById('thankYouMessage').innerText = translation.thankYouMessage;
 }
 
 function updateLanguageButton() {
     const translation = translations[currentLanguage];
-    document.getElementById('languageButton').innerText = translation.languageButtonText; // 更新按钮文本
+    document.getElementById('languageButton').innerText = translation.languageButtonText;
 }
 
 function closePopup() {
     document.getElementById('languagePopup').style.display = 'none';
+}
+
+function showRewardImage() {
+    document.getElementById('rewardImage').style.display = 'block';
+}
+
+function hideRewardImage() {
+    document.getElementById('rewardImage').style.display = 'none';
+    showThankYouMessage();
+}
+
+function showThankYouMessage() {
+    const message = document.getElementById('thankYouMessage');
+    message.style.display = 'block';
+    setTimeout(() => {
+        message.style.display = 'none';
+    }, 500); // 500ms后隐藏
 }

@@ -12,6 +12,7 @@
             background: url('https://i.ibb.co/DrNtpvY/2368.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
+            transition: background-color 0.5s, color 0.5s;
         }
         #loader {
             position: fixed;
@@ -19,15 +20,15 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 255, 0.5); /* 蓝色遮盖 */
+            background: rgba(0, 0, 255, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000; /* 确保在最上层 */
+            z-index: 1000;
         }
         .loader {
-            border: 16px solid #f3f3f3; /* Light grey */
-            border-top: 16px solid #3498db; /* Blue */
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
             border-radius: 50%;
             width: 60px;
             height: 60px;
@@ -38,11 +39,14 @@
             100% { transform: rotate(360deg); }
         }
         header, section, footer {
-            opacity: 0; /* 初始透明度为0 */
-            transition: opacity 0.1s; /* 设置渐显效果 */
+            opacity: 0;
+            transition: opacity 0.1s;
+            max-width: 100%;
+            padding: 0 2%;
         }
         header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             padding: 20px;
             background: linear-gradient(to right, #f4e1b1, #e5c5b0, #d6a0b7);
@@ -50,12 +54,12 @@
             backdrop-filter: blur(10px);
         }
         .avatar {
-            width: 100px; /* 确保宽度 */
-            height: 100px; /* 确保高度 */
-            border-radius: 50%; /* 确保头像为圆形 */
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
             border: 3px solid white;
-            object-fit: cover; /* 确保图像适应容器 */
-            margin-right: 20px; /* 头像与文本之间的间距 */
+            object-fit: cover;
+            margin-right: 20px;
         }
         .header-info {
             color: #333;
@@ -68,36 +72,42 @@
         }
         section {
             padding: 20px;
-            margin: 10px;
+            margin: 10px 0;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             backdrop-filter: blur(10px);
         }
         .skills, .projects {
             display: flex;
-            flex-direction: column; /* 纵向排列 */
-            align-items: center; /* 居中对齐 */
+            flex-direction: column;
+            align-items: center; /* 子项居中 */
         }
         .skill, .project {
             background: rgba(228, 228, 228, 0.4);
-            margin: 10px 0; /* 上下间距 */
+            margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
-            width: 80%; /* 设置宽度 */
-            text-align: center;
-            transition: transform 0.2s ease; /* 添加变换过渡 */
+            width: 80%;
+            text-align: center; /* 内容居中 */
+            transition: transform 0.2s ease;
+            cursor: pointer; /* 使按钮可点击 */
         }
         .skill:hover, .project:hover {
-            transform: scale(1.05); /* 悬停时放大 */
+            transform: scale(1.05);
         }
         footer {
-            text-align: center;
+            display: flex;
+            justify-content: center; /* 居中显示内容 */
+            align-items: center;
             padding: 20px 0;
             background: rgba(53, 66, 74, 0.8);
             position: relative;
-            bottom: 0;
             width: 100%;
             backdrop-filter: blur(10px);
+            text-align: center; /* 确保文本居中 */
+        }
+        .footer-info {
+            margin-right: 20px; /* 按钮与联系方式之间的间距 */
         }
         button {
             background-color: #35424a;
@@ -107,10 +117,38 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            transition: transform 0.2s ease; /* 按钮的过渡效果 */
+            transition: transform 0.2s ease;
+            display: flex; /* 使按钮内容在中间对齐 */
+            align-items: center; /* 垂直居中 */
         }
         button:hover {
-            transform: scale(1.1); /* 鼠标悬停时放大 */
+            transform: scale(1.1);
+        }
+        /* 弹出框样式 */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            max-width: 90%;
+            overflow: hidden;
+        }
+        .popup h3 {
+            margin: 0 0 10px;
+        }
+        .popup button {
+            background-color: #35424a;
+            margin: 5px;
+        }
+        .popup button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
@@ -122,21 +160,23 @@
 
 <div id="content" style="display: none;">
     <header>
-        <img src="https://i.ibb.co/vP5TQxc/Image-3421743685359.jpg" alt="头像" class="avatar">
-        <div class="header-info">
-            <h2>Winter工作室</h2>
-            <p id="datetime"></p>
-            <p id="signature">个性签名：努力改变命运，编程改变发型。</p>
+        <div style="display: flex; align-items: center;">
+            <img src="https://i.ibb.co/vP5TQxc/Image-3421743685359.jpg" alt="头像" class="avatar">
+            <div class="header-info">
+                <h2 id="studioName">Winter工作室</h2>
+                <p id="datetime"></p>
+                <p id="signature">个性签名：努力改变命运，编程改变发型。</p>
+            </div>
         </div>
     </header>
 
     <section>
-        <h2>个人简介</h2>
-        <p>你好！我是一名软件开发者，专注于应用设计和用户体验设计。</p>
+        <h2 id="introTitle">个人简介</h2>
+        <p id="introText">你好！我是一名软件开发者，专注于应用设计和用户体验设计。</p>
     </section>
 
     <section>
-        <h2>技能</h2>
+        <h2 id="skillsTitle">技能</h2>
         <div class="skills">
             <div class="skill">HTML</div>
             <div class="skill">CSS</div>
@@ -146,63 +186,121 @@
     </section>
 
     <section>
-        <h2>项目</h2>
+        <h2 id="projectsTitle">项目</h2>
         <div class="projects">
             <div class="project">
-                <button onclick="handleButtonClick(this, 'https://www.123865.com/s/adRijv-8gOR')">工具箱 v1.3.5</button>
+                <button onclick="handleButtonClick(this, 'https://www.123865.com/s/adRijv-8gOR')">
+                    <span id="projectName">工具箱 v1.3.5</span>
+                </button>
             </div>
         </div>
     </section>
 
     <footer>
-        <h2>联系方式</h2>
-        <p>邮箱: 3507372474@qq.com</p>
+        <div class="footer-info">
+            <h2 id="contactTitle">联系方式</h2>
+            <p id="emailText">邮箱: 3507372474@qq.com</p>
+        </div>
+        <button id="languageButton"></button>
     </footer>
+
+    <div class="popup" id="languagePopup">
+        <h3>选择语言</h3>
+        <button onclick="selectLanguage('zh')">中文（简体）</button>
+        <button onclick="selectLanguage('zh-tw')">中文（繁體）</button>
+        <button onclick="selectLanguage('en')">English</button>
+        <button class="close" onclick="closePopup()">关闭</button>
+    </div>
 </div>
 
 <script>
+    let currentLanguage = 'zh'; // 默认语言
+
+    const translations = {
+        'zh': {
+            studioName: "Winter工作室",
+            introTitle: "个人简介",
+            introText: "你好！我是一名软件开发者，专注于应用设计和用户体验设计。",
+            skillsTitle: "技能",
+            projectsTitle: "项目",
+            contactTitle: "联系方式",
+            emailText: "邮箱: 3507372474@qq.com",
+            projectName: "工具箱 v1.3.5",
+            languageButtonText: "简体中文"
+        },
+        'zh-tw': {
+            studioName: "Winter工作室",
+            introTitle: "個人簡介",
+            introText: "你好！我是一名軟體開發者，專注於應用設計和用戶體驗設計。",
+            skillsTitle: "技能",
+            projectsTitle: "項目",
+            contactTitle: "聯繫方式",
+            emailText: "郵箱: 3507372474@qq.com",
+            projectName: "工具箱 v1.3.5",
+            languageButtonText: "繁體中文"
+        },
+        'en': {
+            studioName: "Winter Studio",
+            introTitle: "Introduction",
+            introText: "Hello! I am a software developer focused on application design and user experience design.",
+            skillsTitle: "Skills",
+            projectsTitle: "Projects",
+            contactTitle: "Contact",
+            emailText: "Email: 3507372474@qq.com",
+            projectName: "Toolkit v1.3.5",
+            languageButtonText: "English"
+        }
+    };
+
+    // 自动获取设备语言
+    function getBrowserLanguage() {
+        const lang = navigator.language || navigator.userLanguage; 
+        if (lang.startsWith('zh-Hans')) return 'zh';  // 简体中文
+        if (lang.startsWith('zh-Hant')) return 'zh-tw'; // 繁体中文
+        if (lang.startsWith('en')) return 'en'; // 英文
+        return 'zh'; // 默认使用简体中文
+    }
+
     window.onload = function() {
-        // 加载完成后0.3秒移除遮盖
+        currentLanguage = getBrowserLanguage(); // 设置当前语言
+        updateContent(); // 更新内容
+        updateLanguageButton(); // 更新语言按钮文本
+
         setTimeout(function() {
             document.getElementById('loader').style.transform = 'translateX(-100%)';
             document.getElementById('loader').style.transition = 'transform 0.5s ease';
-        }, 300); // 300毫秒后移开遮盖
+        }, 300);
 
         setTimeout(function() {
-            document.getElementById('loader').style.display = 'none'; // 完全隐藏
-            document.getElementById('content').style.display = 'block'; // 显示内容
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
 
-            // 每0.05秒增加0.15透明度
             let opacity = 0;
             const elements = document.querySelectorAll('header, section, footer');
             const interval = setInterval(function() {
                 if (opacity >= 1) {
-                    clearInterval(interval); // 达到1后停止
+                    clearInterval(interval);
                 } else {
-                    opacity += 0.15; // 增加透明度
+                    opacity += 0.15;
                     elements.forEach(element => {
-                        element.style.opacity = opacity; // 设置透明度
+                        element.style.opacity = opacity;
                     });
                 }
-            }, 50); // 每50毫秒执行一次
-
-        }, 800); // 确保在遮盖移开后再显示内容
+            }, 50);
+        }, 800);
 
         displayDateTime();
         adjustTextColor();
     };
 
     function handleButtonClick(button, link) {
-        // 点击时缩小
         button.style.transform = 'scale(0.95)';
-        // 设置150毫秒后恢复大小并弹出确认框
         setTimeout(() => {
-            button.style.transform = 'scale(1)'; // 恢复按钮大小
-            // 弹出确认框
+            button.style.transform = 'scale(1)';
             if (confirm("是否下载应用？")) {
                 window.location.href = link;
             }
-        }, 150); // 等待150毫秒
+        }, 150);
     }
 
     function displayDateTime() {
@@ -211,7 +309,6 @@
         const dateTimeString = now.toLocaleString('zh-CN', options);
         document.getElementById('datetime').innerText = dateTimeString;
 
-        // 每秒更新一次时间
         setInterval(displayDateTime, 1000);
     }
 
@@ -221,8 +318,40 @@
             const bgColor = window.getComputedStyle(section).backgroundColor;
             const rgb = bgColor.match(/\d+/g);
             const brightness = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
-            section.style.color = brightness > 0.5 ? '#000000' : '#ffffff'; // 根据亮度调整文字颜色
+            section.style.color = brightness > 0.5 ? '#000000' : '#ffffff';
         });
+    }
+
+    document.getElementById('languageButton').onclick = function() {
+        document.getElementById('languagePopup').style.display = 'block';
+    };
+
+    function selectLanguage(language) {
+        currentLanguage = language;
+        updateContent(); // 更新内容
+        updateLanguageButton(); // 更新按钮文本
+        closePopup();
+    }
+
+    function updateContent() {
+        const translation = translations[currentLanguage];
+        document.getElementById('studioName').innerText = translation.studioName;
+        document.getElementById('introTitle').innerText = translation.introTitle;
+        document.getElementById('introText').innerText = translation.introText;
+        document.getElementById('skillsTitle').innerText = translation.skillsTitle;
+        document.getElementById('projectsTitle').innerText = translation.projectsTitle;
+        document.getElementById('contactTitle').innerText = translation.contactTitle;
+        document.getElementById('emailText').innerText = translation.emailText; // 更新邮箱文本
+        document.getElementById('projectName').innerText = translation.projectName;
+    }
+
+    function updateLanguageButton() {
+        const translation = translations[currentLanguage];
+        document.getElementById('languageButton').innerText = translation.languageButtonText; // 更新按钮文本
+    }
+
+    function closePopup() {
+        document.getElementById('languagePopup').style.display = 'none';
     }
 </script>
 

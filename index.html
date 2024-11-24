@@ -4,9 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人网站</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://s2.loli.net/2024/11/23/OSDxzfgIsCVB9r4.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            transition: background-color 0.5s, color 0.5s;
+        }
+        #loader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        header, section, footer {
+            opacity: 0;
+            transition: opacity 0.5s;
+            max-width: 100%;
+            padding: 20px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(to right, #f4e1b1, #e5c5b0, #d6a0b7);
+            border-radius: 10px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+            margin-right: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+        .header-info {
+            color: #333;
+        }
+        .header-info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        section {
+            padding: 20px;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+        section:hover {
+            transform: translateY(-5px);
+        }
+        .skills, .projects, .links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .skill, .project, .link {
+            background: rgba(255, 255, 255, 0.2);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            width: 80%;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .skill:hover, .project:hover, .link:hover {
+            transform: scale(1.05);
+        }
+        footer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            background: rgba(53, 66, 74, 0.8);
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+        .footer-info {
+            margin-right: 20px;
+        }
+        button {
+            background-color: #35424a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s;
+        }
+        button:hover {
+            transform: scale(1.1);
+            background-color: #2980b9;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            max-width: 90%;
+            overflow: hidden;
+        }
+        .popup h3 {
+            margin: 0 0 10px;
+        }
+        .popup button {
+            background-color: #35424a;
+            margin: 5px;
+        }
+        .popup button:hover {
+            background-color: #2980b9;
+        }
+        #rewardImage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+        #rewardImage img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+        }
+        #thankYouMessage {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1003;
+            color: black;
+            font-size: 36px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
 <div id="loader">
     <div class="loader"></div>
@@ -15,7 +197,7 @@
 <div id="content" style="display: none;">
     <header>
         <div style="display: flex; align-items: center;">
-            <img src="https://s2.loli.net/2024/11/23/giTHqSktvpJfaAE.jpg" alt="头像" class="avatar">
+            <img src="https://s2.loli.net/2024/11/24/6kOHiCWzfvmhBEG.png" alt="头像" class="avatar">
             <div class="header-info">
                 <h2 id="studioName">Winter工作室</h2>
                 <p id="datetime"></p>
@@ -88,6 +270,230 @@
     <div id="thankYouMessage"></div>
 </div>
 
-<script src="script.js"></script>
+<script>
+    let currentLanguage = 'zh'; // 默认语言
+    let clickCount = 0;
+    let clickTimer;
+    let copyrightMessageShown = false; // 版权消息状态
+
+    const translations = {
+        'zh': {
+            studioName: "Winter工作室",
+            introTitle: "个人简介",
+            introText: "你好！我是一名软件开发者，专注于应用设计和用户体验设计。",
+            skillsTitle: "技能",
+            projectsTitle: "项目",
+            linksTitle: "友情链接",
+            contactTitle: "联系方式",
+            emailText: "邮箱: 3507372474@qq.com",
+            projectName: "工具箱 v1.3.5",
+            linkName: "Winter应用商店",
+            linkName2: "打赏",
+            thankYouMessage: "感谢打赏",
+            languageButtonText: "简体中文"
+        },
+        'zh-tw': {
+            studioName: "Winter工作室",
+            introTitle: "個人簡介",
+            introText: "你好！我是一名軟體開發者，專注於應用設計和用戶體驗設計。",
+            skillsTitle: "技能",
+            projectsTitle: "項目",
+            linksTitle: "友情連結",
+            contactTitle: "聯繫方式",
+            emailText: "郵箱: 3507372474@qq.com",
+            projectName: "工具箱 v1.3.5",
+            linkName: "Winter應用商店",
+            linkName2: "打赏",
+            thankYouMessage: "感謝打賞",
+            languageButtonText: "繁體中文"
+        },
+        'en': {
+            studioName: "Winter Studio",
+            introTitle: "Introduction",
+            introText: "Hello! I am a software developer focused on application design and user experience design.",
+            skillsTitle: "Skills",
+            projectsTitle: "Projects",
+            linksTitle: "Links",
+            contactTitle: "Contact",
+            emailText: "Email: 3507372474@qq.com",
+            projectName: "Toolkit v1.3.5",
+            linkName: "Winter App Store",
+            linkName2: "Donation",
+            thankYouMessage: "Thank you for your support",
+            languageButtonText: "English"
+        }
+    };
+
+    function getBrowserLanguage() {
+        const lang = navigator.language || navigator.userLanguage; 
+        if (lang.startsWith('zh-Hans')) return 'zh'; 
+        if (lang.startsWith('zh-Hant')) return 'zh-tw'; 
+        if (lang.startsWith('en')) return 'en'; 
+        return 'zh'; 
+    }
+
+    window.onload = function() {
+        currentLanguage = getBrowserLanguage(); 
+        updateContent(); 
+        updateLanguageButton(); 
+
+        setTimeout(function() {
+            document.getElementById('loader').style.transform = 'translateX(-100%)';
+            document.getElementById('loader').style.transition = 'transform 0.5s ease';
+        }, 300);
+
+        setTimeout(function() {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            let opacity = 0;
+            const elements = document.querySelectorAll('header, section, footer');
+            const interval = setInterval(function() {
+                if (opacity >= 1) {
+                    clearInterval(interval);
+                } else {
+                    opacity += 0.15;
+                    elements.forEach(element => {
+                        element.style.opacity = opacity;
+                    });
+                }
+            }, 50);
+        }, 800);
+
+        displayDateTime();
+        adjustTextColor();
+
+        document.querySelector('.avatar').onclick = function() {
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 3000);
+            }
+            if (clickCount === 15) {
+                clearTimeout(clickTimer);
+                showCopyrightMessage();
+                clickCount = 0;
+            }
+        };
+    };
+
+    function displayDateTime() {
+        const now = new Date();
+        const options = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false,
+        };
+        const dateTimeString = currentLanguage === 'en' ?
+            now.toLocaleString('en-GB', options) : 
+            now.toLocaleString(navigator.language, options);
+        document.getElementById('datetime').innerText = dateTimeString.replace(',', ' ');
+        setInterval(displayDateTime, 1000);
+    }
+
+    function adjustTextColor() {
+        const sections = document.querySelectorAll('section, footer');
+        sections.forEach(section => {
+            const bgColor = window.getComputedStyle(section).backgroundColor;
+            const rgb = bgColor.match(/\d+/g);
+            const brightness = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+            section.style.color = brightness > 0.5 ? '#000000' : '#ffffff';
+        });
+    }
+
+    document.getElementById('languageButton').onclick = function() {
+        document.getElementById('languagePopup').style.display = 'block';
+    };
+
+    function selectLanguage(language) {
+        currentLanguage = language;
+        updateContent(); 
+        updateLanguageButton(); 
+        closePopup();
+    }
+
+    function updateContent() {
+        const translation = translations[currentLanguage];
+        document.getElementById('studioName').innerText = translation.studioName;
+        document.getElementById('introTitle').innerText = translation.introTitle;
+        document.getElementById('introText').innerText = translation.introText;
+        document.getElementById('skillsTitle').innerText = translation.skillsTitle;
+        document.getElementById('projectsTitle').innerText = translation.projectsTitle;
+        document.getElementById('linksTitle').innerText = translation.linksTitle;
+        document.getElementById('contactTitle').innerText = translation.contactTitle;
+        document.getElementById('emailText').innerText = translation.emailText;
+        document.getElementById('projectName').innerText = translation.projectName;
+        document.getElementById('linkName').innerText = translation.linkName;
+        document.getElementById('linkName2').innerText = translation.linkName2;
+        document.getElementById('thankYouMessage').innerText = translation.thankYouMessage;
+    }
+
+    function updateLanguageButton() {
+        const translation = translations[currentLanguage];
+        document.getElementById('languageButton').innerText = translation.languageButtonText;
+    }
+
+    function closePopup() {
+        document.getElementById('languagePopup').style.display = 'none';
+    }
+
+    function showRewardImage() {
+        document.getElementById('rewardImage').style.display = 'flex';
+    }
+
+    function hideRewardImage() {
+        document.getElementById('rewardImage').style.display = 'none';
+        showThankYouMessage();
+    }
+
+    function showThankYouMessage() {
+        const message = document.getElementById('thankYouMessage');
+        message.style.display = 'block';
+        setTimeout(() => {
+            message.style.display = 'none';
+        }, 500);
+    }
+
+    function showCopyrightMessage() {
+        if (copyrightMessageShown) return; // 如果已经显示过版权消息，则返回
+        copyrightMessageShown = true; // 标记已显示版权消息
+
+        const messageContainer = document.createElement('div');
+        messageContainer.style.position = 'fixed';
+        messageContainer.style.top = '50%';
+        messageContainer.style.left = '50%';
+        messageContainer.style.transform = 'translate(-50%, -50%)';
+        messageContainer.style.zIndex = '1004';
+        messageContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        messageContainer.style.color = '#000';
+        messageContainer.style.padding = '20px';
+        messageContainer.style.borderRadius = '8px';
+        messageContainer.style.textAlign = 'center';
+        
+        const img = document.createElement('img');
+        img.src = 'https://s2.loli.net/2024/11/23/giTHqSktvpJfaAE.jpg';
+        img.style.maxWidth = '100%';
+        img.style.borderRadius = '8px';
+        img.style.cursor = 'pointer';
+
+        const text = document.createElement('p');
+        text.innerText = 'Winter工作室©️拥有本网站版权，请勿抄袭，或未经允许篡改';
+
+        messageContainer.appendChild(img);
+        messageContainer.appendChild(text);
+        document.body.appendChild(messageContainer);
+
+        img.onclick = function() {
+            document.body.removeChild(messageContainer);
+            copyrightMessageShown = false; // 关闭时重置状态
+        };
+    }
+</script>
+
 </body>
 </html>

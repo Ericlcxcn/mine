@@ -143,7 +143,8 @@ function updateContentAndButton() {
     document.getElementById('linksTitle').innerText = translation.linksTitle;
     document.getElementById('contactTitle').innerText = translation.contactTitle;
     document.getElementById('emailText').innerText = translation.emailText;
-    document.getElementById('projectName').innerText = translation.projectName;
+    document.getElementById('projectName1').innerText = translation.projectName1;
+    document.getElementById('projectName2').innerText = translation.projectName2;
     document.getElementById('linkName').innerText = translation.linkName;
     document.getElementById('linkName2').innerText = translation.linkName2;
     document.getElementById('thankYouMessage').innerText = translation.thankYouMessage;
